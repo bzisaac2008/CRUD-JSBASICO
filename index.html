@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+</head>
+<body>
+
+<p>ADICIONAR TAREFA</p>
+
+<input id="entrada" type="text" />
+<button onclick="salvarDados()">Salvar</button>
+
+<p>TAREFA A FAZER:</p>
+<div id="editar"></div>
+
+
+<ul id="resultados"></ul>
+
+<script>
+
+
+let listaDeTarefas = [];
+let index=0; 
+function salvarDados() {
+      let entrada = document.getElementById("entrada").value;
+    let entradaObjeto ={id:index, texto:entrada };
+    index++;
+    
+    listaDeTarefas.push(entradaObjeto);
+    //crud
+
+    mostrar();
+}
+
+function mostrar() {
+    let ul = document.getElementById("resultados");
+    let html = "";
+
+    listaDeTarefas.forEach(elemento => {
+     html += `
+    <li>
+        ${elemento.texto}
+            <button onclick="editar(${elemento.id})">EDITAR</button>
+            <button onclick="deletar(${elemento.id})">DELETAR</button>
+    </li> `;
+    });
+
+    ul.innerHTML = html;
+};
+function editar(id) {
+
+    let resultado = listaDeTarefas.find(obj => obj.id === id);
+
+    let html = `
+        <input type="text" id="textoParaEditar" value="${resultado.texto}">
+        <button onclick="editarDados(${id})">SALVAR</button>
+    `;
+
+    let diveditar = document.getElementById("editar");
+    diveditar.innerHTML = html;
+}
+
+function editarDados(id) {
+
+    let textoParaEditar = document.getElementById("textoParaEditar").value;
+
+    let resultado = listaDeTarefas.find(obj => obj.id === id);
+
+    resultado.texto = textoParaEditar;
+
+    document.getElementById("editar").innerHTML = "";
+
+    mostrar();
+}let diveditar = document.getElementById("editar");
+    diveditar.innerHTML = "";
+   function deletar(id) {
+    listaDeTarefas = listaDeTarefas.filter(obj => obj.id !== id);
+    mostrar();
+}
+
+</script>
+</body>
+</html>
